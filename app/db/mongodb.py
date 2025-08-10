@@ -4,7 +4,7 @@ import certifi
 
 def get_mongo_client():
     # Add retryWrites and w=majority for better reliability
-    connection_string = f"{settings.MONGO_URI}?retryWrites=true&w=majority"
+    connection_string = f"{settings.MONGO_URI}"
     
     # Configure SSL with certifi CA certificates
     client = AsyncIOMotorClient(
