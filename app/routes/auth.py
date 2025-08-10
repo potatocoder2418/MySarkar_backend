@@ -10,7 +10,7 @@ from app.schemas.user import UserLogin
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
-@router.post("/register", response_model=UserResponse)
+@router.post("/register")
 async def register(user: UserCreate):
     existing_user = await users_collection.find_one({"email": user.email})
     if existing_user:
@@ -23,7 +23,12 @@ async def register(user: UserCreate):
         "password": hashed_pw
     }
     await users_collection.insert_one(new_user)
-    return {"name": user.name, "email": user.email}
+
+    access_token = create_access_token(
+        data={"sub": user.email},
+        expires_delta=timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    )
+    return {"name": user.name, "email": user.email,"access_token": access_token, "token_type": "bearer"}
 
 @router.post("/login", response_model=Token)
 async def login(user: UserLogin):
