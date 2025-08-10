@@ -8,7 +8,7 @@ app = FastAPI()
 # Add CORS middleware with explicit configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://hackodisha.vercel.app", "http://localhost:3000"],
+    allow_origins=["https://hackodisha.vercel.app", "http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "Authorization"],
